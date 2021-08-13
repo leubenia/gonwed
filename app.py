@@ -113,6 +113,10 @@ def header():
 def footer():
     return render_template('footer.html')
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
 # API 역할을 하는 부분
 @app.route('/api/list', methods=['GET'])
 def show_stars():
