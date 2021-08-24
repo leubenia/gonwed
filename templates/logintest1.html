@@ -60,27 +60,33 @@
             }
         </script>
     </head>
-    <body>
-        <div class="login">
-            <div>
-                <img src="../static/img/testdogimg.jpg" alt="Testlogo" style="width: 15%;">
+    <body class="what">
+        <header w3-include-html = "header" class="head"></header>
+        <div class="menu">매뉴 입니다</div>
+        <form class="form-horizontal set">
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">id</label>
+              <div class="col-sm-10">
+                <input class="form-control" id="input" placeholder="id">
+              </div>
             </div>
-        </div>
-        <div>
-            <form class="form-horizontal logindo">
-                <div class="form-group">
-                  <div class="col-sm-10">
-                    <input id="id" placeholder="아이디">
-                    <input type="password" id="Password" placeholder="비밀번호">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit">로그인</button>
-                  </div>
-                </div>
-            </form>
-        </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">로그인</button>
+                <button type="sigin" class="btn btn-default">회원 가입</button>
+              </div>
+            </div>
+        </form>
+        <script>
+            includeHTML();
+        </script>
+        <footer w3-include-html = "footer" class="foot"></footer>
     </body>
 
 </html>

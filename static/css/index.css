@@ -1,0 +1,18 @@
+.form-horizontal{
+    margin:10px 80px 80px 20px;
+}
+@media screen and (max-width: 640px){
+    .form-horizontal{
+        margin: 0px;
+    }
+}
+.login{
+    text-align: center;
+}
+.logindo{
+    margin: auto;
+    margin-top: 10px;
+    width: 100%;
+    padding: 70px 0;
+    background-color: blue;
+}
