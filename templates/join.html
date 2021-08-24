@@ -20,6 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <style>
         .button.is-sparta {
             background-color: #e8344e;
@@ -129,21 +130,32 @@
                          <div class="field">
                             <div class="control has-icons-left">
                                 <input id="input-name" class="input" type="text" placeholder="성명">
-                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
                             </div>
                         </div>
 
-                         <div class="field">
+                          <div class="field">
                             <div class="control has-icons-left">
-                                <input id="input-address" class="input" type="text" placeholder="주소">
-                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                <input id="input-mail" class="input" type="text" placeholder="메일">
+                                <span class="icon is-small is-left"><i class="fa fa-envelope" aria-hidden="true" ></i></span>
                             </div>
+                        </div>
+
+                        <div class="field has-addons">
+                            <div class="control has-icons-left" style="width:100%">
+                                <input id="input-address" class="input" type="text" placeholder="주소">
+                                <span class="icon is-small is-left"><i class="fa fa-address-card"></i></span>
+                            </div>
+                            <div id="btn-check-dup2" class="control">
+                                <button class="button is-sparta" onclick="check_address()">주소찾기</button>
+                            </div>
+
                         </div>
 
                          <div class="field">
                             <div class="control has-icons-left">
                                 <input id="input-phone" class="input" type="text" placeholder="번호">
-                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                <span class="icon is-small is-left"><i class="fa fa-mobile" aria-hidden="true"></i></span>
                             </div>
                         </div>
 
