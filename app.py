@@ -99,7 +99,7 @@ class JSONEncoder(json.JSONEncoder):
 
 
 
-    #     return model
+
 # HTML 화면 보여주기
 @app.route('/')
 def home():
@@ -137,6 +137,35 @@ def delete_star():
     sample_receive = request.form['sample_give']
     print(sample_receive)
     return jsonify({'msg': 'delete 연결되었습니다!'})
+
+@app.route('/login_main', methods=['GET', 'POST'])
+def login_main():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        userid = request.form.get("userid", type=str)
+        pw = request.form.get("userPW", type=str)
+
+        if userid == "":
+            flash("아이디를 입력해주세요")
+            return render_template('login.html')
+        elif pw == "":
+            flash("비밀번호를 입력하세요")
+            return render_template('login.html')
+        else:
+            users = db.users
+            id_check = users.find_one({"userid": userid})
+            if id_check in None:
+                flash("아이디가 존재하지 않습니다.")
+                return render_template('login.html')
+            elif check_password_hash(id_check["pw"],pw):
+                session["logged_in"] = userid
+                return render_template('index.html', userid = userid)
+            else:
+                flash("비밀번호가 틀렸습니다.")
+                return render_template('login.html')
+
+
 
 
 if __name__ == '__main__':

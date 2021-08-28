@@ -20,45 +20,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-        <script>
-            
-            $(document).ready(function () {
-                showStar();
-            });
-
-            function showStar() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/api/list?sample_give=샘플데이터',
-                    data: {},
-                    success: function (response) {
-                        alert(response['msg']);
-                    }
-                });
-            }
-
-            function likeStar(name) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/do',
-                    data: {sample_give:'샘플데이터'},
-                    success: function (response) {
-                        alert(response['msg']);
-                    }
-                });
-            }
-
-            function deleteStar(name) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/do',
-                    data: {sample_give:'샘플데이터'},
-                    success: function (response) {
-                        alert(response['msg']);
-                    }
-                });
-            }
-        </script>
     </head>
     <body>
         <div class="login">
@@ -67,11 +28,11 @@
             </div>
         </div>
         <div>
-            <form class="form-horizontal logindo">
+            <form method="post" action="/login_main">
                 <div class="form-group">
                   <div class="col-sm-10">
-                    <input id="id" placeholder="아이디">
-                    <input type="password" id="Password" placeholder="비밀번호">
+                    <input id="id" placeholder="아이디" name="userid">
+                    <input type="password" id="Password" placeholder="비밀번호" name="userPW">
                   </div>
                 </div>
                 <div class="form-group">
