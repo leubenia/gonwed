@@ -20,17 +20,117 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 
         <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            .set {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            section {
+                width: 60%;
+                /* border: solid; */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 20px;
+            }
+
             h1 {
                 font-size: large;
             }
-            section {
+
+            .top {
                 margin: 10px 12px;
                 display: flex;
                 justify-content: space-between;
                 align-content: center;
                 align-items: center;
+            }
+
+            input {
+                width: 100%;
+                padding: 12px 40px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                background-color: rgba(0, 0, 0, 0);
+            }
+
+            li div{
+                position: relative;
+            }
+
+            .id-btn {
+                border-style: none;
+                border-radius: 5px;
+                background-color: green;
+                color: whitesmoke;
+                padding: 8px;
+                width: 100px;
+                position: absolute;
+                left: 99%;
+                top: 20%;
+                /* transform: translateY(-50%); */
+                transform: translateX(-100%);
+            }
+
+            .change-id .fa-user {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: gray;
+            }
+
+            
+            .change-pw .fa-key {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: gray;
+            }
+
+            .change-pw p {
+                font-size: 12px;
+            }
+
+            .chage-name .fa-user-circle {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: gray;
+            }
+
+            .chage-number .fa-mobile-alt {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: gray;
+            }
+            .chage-email .fa-at {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: gray;
+            }
+            .chage-address .fa-address-card{
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: gray;
             }
         </style>
 
@@ -40,45 +140,99 @@
         <div class="set">
             <section>
                 <h1>회원정보 수정</h1>
+                    
+                <ul>
+                    <li class="change-id">
+                        <div>
+                            <input type="text" placeholder="새로운 아이디를 입력하세요">
+                            <i class="fas fa-user"></i>
+                            <button class="id-btn">중복확인</button>
+                        </div>
+                        
+                    </li>
+
+                    <li class="change-pw">
+                        <div>
+                            <input type="password" id="pw" placeholder="새로운 비밀번호를 입력하세요">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <p>영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용 가능합니다.</p>
+                    </li>
+
+                    <li class="change-pw pw-recheck">
+                        <div>
+                            <input type="password" id="repw" placeholder="새로운 비밀번호를 재입력하세요">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <p id="require"></p>
+                    </li>
+
+                    <li class="chage-name">
+                        <div>
+                            <input type="text" placeholder="새로운 이름을 입력하세요">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    </li>
+
+                    <li class="chage-number">
+                        <div>
+                            <input type="tel" placeholder="새로운 전화번호를 입력하세요">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </li>
+
+                    <li class="chage-email">
+                        <div>
+                            <input type="email" placeholder="새로운 이메일을 입력하세요">
+                            <i class="fas fa-at"></i>
+                        </div>
+                    </li>
+
+                    <li class="chage-address">
+                        <div>
+                            <input type="text" placeholder="새로운 주소를 입력하세요">
+                            <i class="fas fa-address-card"></i>
+                        </div>
+                    </li>
+
+                </ul>
+
                 <button type="button" class="btn btn-primary">정보수정</button>
+
             </section>
-            <ul>
-                <li class="change-id">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="새로운 아이디를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    </div>
-                </li>
-                <li class="change-pw">
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="새로운 비밀번호를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    </div>
-                </li>
-                <li class="chage-name">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="새로운 이름을 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    </div>
-                </li>
-                <li class="chage-number">
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" placeholder="새로운 전화번호를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    </div>
-                </li>
-                <li class="chage-email">
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="새로운 이메일을 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    </div>
-                </li>
-                <li>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="새로운 주소를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    </div>
-                </li>
-            </ul>
-            
+
         </div>
 
         <script>
             includeHTML();
+
+            const pw = document.querySelector('#pw');
+            const repw = document.querySelector('#repw');
+            const require = document.querySelector('#require');
+
+            repw.addEventListener('keyup', function () {
+                if (repw.value === pw.value) {
+                    require.innerHTML = "비밀번호가 일치합니다."
+                    require.style.color = 'blue';
+                } else {
+                    require.innerHTML = "입력하신 비밀번호가 다릅니다."
+                    require.style.color = 'red';
+                }
+            })
+
+            const idBtn = document.querySelector('.id-btn');
+
+            idBtn.addEventListener('click', function() {
+                alert('사용할 수 있는 아이디 입니다.')
+            })
+
+            const btn = document.querySelector('.btn-primary');
+
+            btn.addEventListener('click', function() {
+                alert('회원정보가 수정되었습니다.')
+            })
+
+
         </script>
         <footer w3-include-html = "footer" class="foot"></footer>
     </body>
