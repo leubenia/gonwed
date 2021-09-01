@@ -20,7 +20,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Create application
 app = Flask(__name__)
 
-conn = MongoClient()
+conn = MongoClient('localhost',27017)
 
 
 db = conn.bdd
@@ -113,12 +113,53 @@ def header():
 def footer():
     return render_template('footer.html')
 
+@app.route('/join')
+def join():
+    return render_template('join.html')
+
 # API 역할을 하는 부분
 @app.route('/api/list', methods=['GET'])
 def show_stars():
     sample_receive = request.args.get('sample_give')
     print(sample_receive)
     return jsonify({'msg': 'list 연결되었습니다!'})
+
+#아이디중복체크
+@app.route('/api/idcheck', methods=['GET'])
+def idcheck():
+    userid = request.args.get('userid_give')
+    id_check= list(db.member.find({'userid': userid}, {'_id': False}))
+    print(id_check)
+    if id_check==[]:
+        return jsonify({'result':'success','msg': '아이디 가능합니다.'})
+    else:
+        return jsonify({'msg': '기존에 동일한 아이디가 존재합니다.'})
+
+# 회원가입
+@app.route('/join', methods=['POST'])
+def join_page():
+    # title_receive로 클라이언트가 준 title 가져오기
+    userid = request.form['userid_give']
+    pw = request.form['pw_give']
+    name = request.form['name_give']
+    mail = request.form['mail_give']
+    address = request.form['address_give']
+    phone = request.form['phone_give']
+
+    # DB에 삽입할 review 만들기
+    doc = {
+        'userid': userid,
+        'pw': pw,
+        'name': name,
+        'mail': mail,
+        'address': address,
+        'phone': phone,
+
+    }
+    # member에 review 저장하기
+    db.member.insert_one(doc)
+    # 성공 여부 & 성공 메시지 반환
+    return jsonify({'msg': '회원가입 완료'})
 
 
 @app.route('/api/like', methods=['POST'])
