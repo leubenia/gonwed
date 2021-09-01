@@ -134,7 +134,7 @@ def show_stars():
 @app.route('/api/idcheck', methods=['GET'])
 def idcheck():
     userid = request.args.get('userid_give')
-    id_check= list(db.member.find({'userid': userid}, {'_id': False}))
+    id_check= list(db.users.find({'userid': userid}, {'_id': False}))
     print(id_check)
     if id_check==[]:
         return jsonify({'result':'success','msg': '아이디 가능합니다.'})
@@ -155,7 +155,7 @@ def join_page():
     # DB에 삽입할 review 만들기
     doc = {
         'userid': userid,
-        'pw': pw,
+        'pw': generate_password_hash(pw),
         'name': name,
         'mail': mail,
         'address': address,
@@ -165,6 +165,7 @@ def join_page():
     # member에 review 저장하기
     db.users.insert_one(doc)
     # 성공 여부 & 성공 메시지 반환
+    
     return jsonify({'msg': '회원가입 완료'})
 
 
