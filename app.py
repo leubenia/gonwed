@@ -3,6 +3,7 @@ from flask_admin import model
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import flask_admin as admin
+from pymongo.common import partition_node
 from wtforms import form, fields
 from flask_admin.form import Select2Widget
 from flask_admin.contrib.pymongo import ModelView, filters, view
@@ -115,7 +116,7 @@ def header():
 def footer():
     return render_template('footer.html')
 
-@app.route('/login_main')
+@app.route('/login')
 def login():
     return render_template('login.html')
 
@@ -157,7 +158,7 @@ def login_main():
         else:
             users = db.users
             id_check = users.find_one({"userid": userid})
-            if id_check in None:
+            if id_check is None:
                 flash("아이디가 존재하지 않습니다.")
                 return render_template('login.html')
             elif check_password_hash(id_check["pw"],pw):
