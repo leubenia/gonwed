@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+    <script src="../static/js/common.js"></script>
+    <script src="https://kit.fontawesome.com/447b429f54.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>메인페이지 테스트</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+        .button.is-sparta {
+            background-color: #e8344e;
+            border-color: transparent;
+            color: #fff !important;
+        }
+
+        .button.is-sparta.is-outlined {
+            background-color: transparent;
+            border-color: #e8344e;
+            color: #e8344e !important;
+        }
+
+        .help {
+            color: gray;
+        }
+
+        .is-hidden {
+            display: none !important;
+        }
+
+    </style>
+    <script>
+        let checkid = 0
+        $(document).ready(function () {
+            showStar();
+        });
+
+
+        function showStar() {
+            $.ajax({
+                type: 'GET',
+                url: '/api/list?sample_give=샘플데이터',
+                data: {},
+                success: function (response) {
+                    alert(response['msg']);
+                }
+            });
+        }
+
+        //주소찾기
+        function findAddr() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+
+                    console.log(data);
+
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                    // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    let roadAddr = data.roadAddress; // 도로명 주소 변수
+                    let jibunAddr = data.jibunAddress; // 지번 주소 변수
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('input-address').value = data.zonecode;
+
+                    if (roadAddr !== '') {
+                        document.getElementById("input-address2").value = roadAddr;
+                    } else if (jibunAddr !== '') {
+                        document.getElementById("input-address2").value = jibunAddr;
+                    }
+                }
+            }).open();
+        }
+
+        //중복체크
+        function check_dup() {
+            let userid = $("#input-username").val();
+            if (userid!='') {
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/idcheck',
+                    data: {userid_give: userid},
+                    success: function (response) {
+                        if (response['result'] != 'success') {
+                            alert(response['msg']);
+                        } else {
+                            checkid = 1
+                            alert(response['msg']);
+                        }
+
+                    }
+                });
+            }else{
+                alert('아이디를 입력하세요')
+            }
+
+        }
+
+        // 회원가입 (저장)
+        function sign_up() {
+
+            let userid = $("#input-username").val();
+            let pw = $("#input-password").val();
+            let name = $("#input-name").val();
+            let mail = $("#input-mail").val();
+            let address = $("#input-address2").val();
+            let phone = $("#input-phone").val();
+
+            if (userid!=""&checkid==0){
+                alert("아이디 중복체크 해주세요")
+            }
+            else if(userid!=""&pw!=""&name!=""&mail!=""&address!=""&phone!="") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/join',
+                    data: {
+                        userid_give: userid,
+                        pw_give: pw,
+                        name_give: name,
+                        mail_give: mail,
+                        address_give: address,
+                        phone_give: phone
+                    },
+                    success: function (response) {
+                        alert(response['msg']);
+                    }
+                });
+            }
+            else{
+                alert("빠짐없이 채워주세요")
+            }
+        }
+
+        //회원가입 취소
+        function toggle_sign_up() {
+            window.location.reload();
+            history.back();
+        }
+    </script>
+</head>
+
+
+<body class="wrapper">
+
+<header w3-include-html="header" class="head"></header>
+<div class="menu">매뉴 입니다</div>
+
+<section class="section">
+    <div class="container">
+        <div class="box" style="max-width: 480px;margin:auto">
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <div class="field has-addons">
+                            <div class="control has-icons-left" style="width:100%">
+                                <input id="input-username" class="input" type="text" placeholder="아이디">
+                                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                            </div>
+                            <div id="btn-check-dup" class="control">
+                                <button class="button is-sparta" onclick="check_dup()">중복확인</button>
+                            </div>
+
+                        </div>
+                        <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
+                        <p id="help-id-login" class="help is-danger"></p>
+
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input id="input-password" class="input" type="password" placeholder="비밀번호">
+                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                            </div>
+                            <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용
+                                가능합니다.</p>
+                        </div>
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input id="re-input-password" class="input" type="password" placeholder="비밀번호재입력">
+                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                            </div>
+                            <p id="re-help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용
+                                가능합니다.</p>
+                        </div>
+
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input id="input-name" class="input" type="text" placeholder="성명">
+                                <span class="icon is-small is-left"><i class="fa fa-address-book"
+                                                                       aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input id="input-mail" class="input" type="text" placeholder="메일">
+                                <span class="icon is-small is-left"><i class="fa fa-envelope"
+                                                                       aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="field has-addons">
+                            <div class="control has-icons-left" style="width:100%">
+                                <input id="input-address" class="input" type="text" placeholder="주소" readonly
+                                       onclick="findAddr()">
+                                <span class="icon is-small is-left"><i class="fa fa-address-card"></i></span>
+                            </div>
+                            <div id="btn-check-dup2" class="control">
+                                <button id="btn-address" class="button is-sparta" onclick="findAddr()">주소찾기</button>
+                            </div>
+                        </div>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left" style="width:100%">
+                                <input id="input-address2" class="input" type="text" placeholder="상세주소">
+                                <span class="icon is-small is-left"><i class="fa fa-address-card"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input id="input-phone" class="input" type="text" placeholder="번호">
+                                <span class="icon is-small is-left"><i class="fa fa-mobile"
+                                                                       aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div id="sign-up-box">
+
+                        <nav class="level is-mobile">
+                            <button class="level-item button is-sparta" onclick="sign_up()">
+                                회원가입
+                            </button>
+                            <button class="level-item button is-sparta is-outlined" onclick="toggle_sign_up()">
+                                취소
+                            </button>
+                        </nav>
+                    </div>
+
+
+                </div>
+            </article>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    includeHTML();
+</script>
+<footer w3-include-html="footer" class="foot"></footer>
+</body>
+
+</html>
