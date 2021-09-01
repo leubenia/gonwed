@@ -15,6 +15,7 @@ from flask import Flask, render_template, jsonify, request, session, url_for, re
 from wtforms.fields.simple import FileField
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 #회원가입 비밀번호 암호화를 위해 werkzeug import
 
 # Create application
@@ -24,6 +25,7 @@ conn = MongoClient()
 
 
 db = conn.bdd
+app.config['SECRET_KEY'] = '123456790'
 
 # Create models
 
@@ -113,7 +115,7 @@ def header():
 def footer():
     return render_template('footer.html')
 
-@app.route('/login')
+@app.route('/login_main')
 def login():
     return render_template('login.html')
 
@@ -147,7 +149,7 @@ def login_main():
         pw = request.form.get("userPW", type=str)
 
         if userid == "":
-            flash("아이디를 입력해주세요")
+            flash("아이디를 입력하세요")
             return render_template('login.html')
         elif pw == "":
             flash("비밀번호를 입력하세요")
@@ -169,7 +171,7 @@ def login_main():
 
 
 if __name__ == '__main__':
-    admin = admin.Admin(app, name='맘스키친', url='/bluenight')
+    admin = admin.Admin(app, name='맘스키친', url='/dodo')
     
     # Add views
     admin.add_view(menu_view(db.menu, '매뉴', url='/Product_management'))
