@@ -20,7 +20,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Create application
 app = Flask(__name__)
 
-conn = MongoClient('localhost',27017)
+conn = MongoClient()
 
 
 db = conn.bdd
