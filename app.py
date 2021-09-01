@@ -157,7 +157,7 @@ def join_page():
 
     }
     # member에 review 저장하기
-    db.member.insert_one(doc)
+    db.users.insert_one(doc)
     # 성공 여부 & 성공 메시지 반환
     return jsonify({'msg': '회원가입 완료'})
 
