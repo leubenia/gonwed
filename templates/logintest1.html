@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="../static/css/common.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+        <script src="../static/js/common.js"></script>
+        <script src="https://kit.fontawesome.com/447b429f54.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <title>메인페이지 테스트</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <script>
+            
+            $(document).ready(function () {
+                showStar();
+            });
+
+            function showStar() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/list?sample_give=샘플데이터',
+                    data: {},
+                    success: function (response) {
+                        alert(response['msg']);
+                    }
+                });
+            }
+
+            function likeStar(name) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/do',
+                    data: {sample_give:'샘플데이터'},
+                    success: function (response) {
+                        alert(response['msg']);
+                    }
+                });
+            }
+
+            function deleteStar(name) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/do',
+                    data: {sample_give:'샘플데이터'},
+                    success: function (response) {
+                        alert(response['msg']);
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body class="what">
+        <header w3-include-html = "header" class="head"></header>
+        <div class="menu">매뉴 입니다</div>
+        <form class="form-horizontal set">
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">id</label>
+              <div class="col-sm-10">
+                <input class="form-control" id="input" placeholder="id">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">로그인</button>
+                <button type="sigin" class="btn btn-default">회원 가입</button>
+              </div>
+            </div>
+        </form>
+        <script>
+            includeHTML();
+        </script>
+        <footer w3-include-html = "footer" class="foot"></footer>
+    </body>
+
+</html>

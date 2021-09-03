@@ -4,13 +4,13 @@
     grid-gap: 10px;
     /* grid-auto-rows: 50px 350px 50px; */
     grid-template-areas :
-            ". h h h h h h h h h ."
+            "m m h h h h h h h h h"
             "m m c c c c c c c c c"
-            ". f f f f f f f f f .";
+            "f f f f f f f f f f f";
 
 }
 @media screen and (max-width: 640px){
-    .what{
+    .wrapper{
         grid-template-areas :
             "m m m h h h h h h h h"
             "c c c c c c c c c c c "
