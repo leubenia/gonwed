@@ -20,7 +20,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Create application
 app = Flask(__name__)
 
-conn = MongoClient()
+conn = MongoClient('localhost',27017)
 
 
 db = conn.bdd
@@ -113,6 +113,10 @@ def header():
 def footer():
     return render_template('footer.html')
 
+@app.route('/change')
+def change():
+    return render_template('change.html')
+
 # API 역할을 하는 부분
 @app.route('/api/list', methods=['GET'])
 def show_stars():
@@ -133,6 +137,42 @@ def delete_star():
     sample_receive = request.form['sample_give']
     print(sample_receive)
     return jsonify({'msg': 'delete 연결되었습니다!'})
+
+
+# 회원정보 가져오기 (id가 idid 인 사람)
+@app.route('/user', methods=['GET'])
+def read_membership():
+    membership = db.users.find_one({'userid': 'idid'},{'_id':False})
+    return jsonify({'user_membership': membership})
+
+
+
+#아이디중복체크
+@app.route('/api/idcheck', methods=['GET'])
+def idcheck():
+    userid = request.args.get('userid_give')
+    id_check= list(db.member.find({'userid': userid}, {'_id': False}))
+    # print(id_check)
+    if id_check==[]:
+        return jsonify({'result':'success','msg': '아이디 가능합니다.'})
+    else:
+        return jsonify({'msg': '기존에 동일한 아이디가 존재합니다.'})
+
+
+# 회원정보 수정 (id가 idid 인 사람)
+@app.route('/api/change', methods=['POST'])
+def change_membership():
+    userid = request.form['userid_give']
+    pw = request.form['pw_give']
+    name = request.form['name_give']
+    mail = request.form['mail_give']
+    address = request.form['address_give']
+    phone = request.form['phone_give']
+
+    title_receive = db.users.update_one({'userid':'idid'},{'$set':{'userid':userid, 'pw':pw, 'name':name, 'mail':mail, 'address':address, 'phone':phone}})
+    print(title_receive)
+    return jsonify({'result':'success', 'msg': '회원정보가 수정되었습니다.'})
+
 
 
 if __name__ == '__main__':

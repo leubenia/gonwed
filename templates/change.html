@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
         <style>
             * {
@@ -43,15 +44,8 @@
             }
 
             h1 {
-                font-size: large;
-            }
-
-            .top {
-                margin: 10px 12px;
-                display: flex;
-                justify-content: space-between;
-                align-content: center;
-                align-items: center;
+                font-size: 25px;
+                font-weight: 900;
             }
 
             input {
@@ -68,6 +62,7 @@
                 position: relative;
             }
 
+            /* 아이디 */
             .id-btn {
                 border-style: none;
                 border-radius: 5px;
@@ -90,7 +85,7 @@
                 color: gray;
             }
 
-            
+            /* 비밀번호 */
             .change-pw .fa-key {
                 position: absolute;
                 left: 15px;
@@ -103,6 +98,7 @@
                 font-size: 12px;
             }
 
+            /* 이름 */
             .chage-name .fa-user-circle {
                 position: absolute;
                 left: 15px;
@@ -111,6 +107,7 @@
                 color: gray;
             }
 
+            /* 전화번호 */
             .chage-number .fa-mobile-alt {
                 position: absolute;
                 left: 15px;
@@ -118,6 +115,8 @@
                 transform: translateY(-50%);
                 color: gray;
             }
+
+            /* 이메일 */
             .chage-email .fa-at {
                 position: absolute;
                 left: 15px;
@@ -125,12 +124,28 @@
                 transform: translateY(-50%);
                 color: gray;
             }
+
+            /* 주소 */
             .chage-address .fa-address-card{
                 position: absolute;
                 left: 15px;
                 top: 50%;
                 transform: translateY(-50%);
                 color: gray;
+            }
+
+            .zip-btn {
+                border-style: none;
+                border-radius: 5px;
+                background-color: green;
+                color: whitesmoke;
+                padding: 8px;
+                width: 100px;
+                position: absolute;
+                left: 99%;
+                top: 20%;
+                /* transform: translateY(-50%); */
+                transform: translateX(-100%);
             }
         </style>
 
@@ -144,16 +159,16 @@
                 <ul>
                     <li class="change-id">
                         <div>
-                            <input type="text" placeholder="새로운 아이디를 입력하세요">
+                            <input id="input-username" type="text" placeholder="새로운 아이디를 입력하세요">
                             <i class="fas fa-user"></i>
-                            <button class="id-btn">중복확인</button>
+                            <button class="id-btn" onclick="check_dup()">중복확인</button>
                         </div>
                         
                     </li>
 
                     <li class="change-pw">
                         <div>
-                            <input type="password" id="pw" placeholder="새로운 비밀번호를 입력하세요">
+                            <input id="pw" type="password" placeholder="새로운 비밀번호를 입력하세요">
                             <i class="fas fa-key"></i>
                         </div>
                         <p>영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용 가능합니다.</p>
@@ -161,43 +176,49 @@
 
                     <li class="change-pw pw-recheck">
                         <div>
-                            <input type="password" id="repw" placeholder="새로운 비밀번호를 재입력하세요">
+                            <input id="repw" type="password"  placeholder="비밀번호를 재입력하세요">
                             <i class="fas fa-key"></i>
                         </div>
-                        <p id="require"></p>
+                        <p id="require-pw"></p>
                     </li>
 
                     <li class="chage-name">
                         <div>
-                            <input type="text" placeholder="새로운 이름을 입력하세요">
+                            <input id="input-name" type="text" placeholder="새로운 이름을 입력하세요">
                             <i class="fas fa-user-circle"></i>
                         </div>
                     </li>
 
                     <li class="chage-number">
                         <div>
-                            <input type="tel" placeholder="새로운 전화번호를 입력하세요">
+                            <input id="input-phone" type="tel" placeholder="새로운 전화번호를 입력하세요">
                             <i class="fas fa-mobile-alt"></i>
                         </div>
+                        <p id="require-num"></p>
                     </li>
 
                     <li class="chage-email">
                         <div>
-                            <input type="email" placeholder="새로운 이메일을 입력하세요">
+                            <input id="input-mail" type="email" placeholder="새로운 이메일을 입력하세요">
                             <i class="fas fa-at"></i>
                         </div>
                     </li>
 
                     <li class="chage-address">
                         <div>
-                            <input type="text" placeholder="새로운 주소를 입력하세요">
+                            <input id="input-address" type="text" readonly onclick="findAddr()" placeholder="새로운 우편번호를 입력하세요">
+                            <i class="fas fa-address-card"></i>
+                            <button class="zip-btn" onclick="findAddr()">우편번호</button>
+                        </div>
+                        <div>
+                            <input id="input-address2" type="text" placeholder="새로운 주소를 입력하세요">
                             <i class="fas fa-address-card"></i>
                         </div>
                     </li>
 
                 </ul>
 
-                <button type="button" class="btn btn-primary">정보수정</button>
+                <button type="button" class="btn btn-primary" onclick="changeMembership()">정보수정</button>
 
             </section>
 
@@ -206,11 +227,11 @@
         <script>
             includeHTML();
 
-            const pw = document.querySelector('#pw');
-            const repw = document.querySelector('#repw');
-            const require = document.querySelector('#require');
-
             repw.addEventListener('keyup', function () {
+                const pw = document.querySelector('#pw');
+                const repw = document.querySelector('#repw');
+                const require = document.querySelector('#require-pw');
+
                 if (repw.value === pw.value) {
                     require.innerHTML = "비밀번호가 일치합니다."
                     require.style.color = 'blue';
@@ -220,19 +241,172 @@
                 }
             })
 
-            const idBtn = document.querySelector('.id-btn');
 
-            idBtn.addEventListener('click', function() {
-                alert('사용할 수 있는 아이디 입니다.')
+            // 휴대폰번호 검사
+            function isCellPhone(p) {
+                p = p.split('-').join('');
+                var regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+                return regPhone.test(p);
+            }
+
+            let phone = document.querySelector('#input-phone');
+            phone.addEventListener('keyup', function(p){
+                
+                let require = document.querySelector('#require-num');
+                
+                if (!isCellPhone(phone.value)) {
+                    require.innerHTML = "010-XXXX-XXXX 또는 010XXXXXXXX 번호를 입력하세요"
+                    require.style.color = 'red';
+                } else {
+                    require.innerHTML = ""
+                }
             })
-
-            const btn = document.querySelector('.btn-primary');
-
-            btn.addEventListener('click', function() {
-                alert('회원정보가 수정되었습니다.')
-            })
+                
 
 
+
+            // API
+
+            $(document).ready(function () {
+                showUser();
+            });
+
+           
+            
+            // 회원정보 가져오기
+            function showUser() {
+                $.ajax({
+                    type: "GET",
+                    url: "/user",
+                    data: {},
+                    success: function (response) {
+                        let user = response['user_membership']
+                        // console.log(user)
+                    
+                        $('#input-username').val(user['userid']);
+                        $('#pw').val(user['pw']);
+                        $('#input-phone').val(user['phone']);
+                        $('#input-name').val(user['name']);
+                        $('#input-mail').val(user['mail']);
+                        // $('#input-address').val(user['zip']); 우편번호
+                        $('#input-address2').val(user['address']);
+               
+                    }
+                })
+            }
+
+
+            //중복체크
+            function check_dup() {
+                let userid = $("#input-username").val();
+                if (userid!='') {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/idcheck',
+                        data: {userid_give: userid},
+                        success: function (response) {
+                            if (response['result'] != 'success') {
+                                alert(response['msg']);
+                            } else {
+                                checkid = 1
+                                alert(response['msg']);
+                            }
+
+                        }
+                    });
+                }else{
+                    alert('아이디를 입력하세요')
+                }
+            }
+
+
+
+            //주소찾기
+            function findAddr() {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+
+                        console.log(data);
+
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                        // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        let roadAddr = data.roadAddress; // 도로명 주소 변수
+                        let jibunAddr = data.jibunAddress; // 지번 주소 변수
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('input-address').value = data.zonecode;
+
+                        if (roadAddr !== '') {
+                            document.getElementById("input-address2").value = roadAddr;
+                        } else if (jibunAddr !== '') {
+                            document.getElementById("input-address2").value = jibunAddr;
+                        }
+                    }
+                }).open();
+            }
+
+
+
+             // 회원정보 수정
+             function changeMembership() {  
+                let userid = $("#input-username").val();
+                let pw = $("#pw").val();
+                let repw = $("#repw").val();
+                let name = $("#input-name").val();
+                let mail = $("#input-mail").val();
+                let address = $("#input-address2").val();
+                let phone = $("#input-phone").val();
+                
+                if (userid === '') {
+                    alert('아이디를 입력해주세요');
+                    $('#input-username').focus();
+                    return
+                } else if (pw === '') {
+                    alert('비밀번호를 입력해주세요');
+                    $('#pw').focus();
+                    return
+                } else if (repw === '') {
+                    alert('비밀번호를 재입력해주세요');
+                    $('#repw').focus();
+                    return
+                } else if (name === '') {
+                    alert('이름을 입력해주세요');
+                    $('#input-name').focus();
+                    return
+                } else if (mail === '') {
+                    alert('메일을 입력해주세요');
+                    $('#input-mail').focus();
+                    return
+                } else if (address === '') {
+                    alert('주소를 입력해주세요')
+                    $('#input-address2').focus()
+                    return
+                } else if (!isCellPhone(phone)) {
+                    alert('전화번호 입력 형식이 틀립니다. \n 010-0000-0000으로 입력해주세요')
+                    $('#input-phone').focus()
+                    return
+                }
+
+                $.ajax({
+                type: "POST",
+                url: "/api/change",
+                data: {
+                    userid_give: userid,
+                    pw_give: pw,
+                    name_give: name,
+                    mail_give: mail,
+                    address_give: address,
+                    phone_give: phone
+                },
+                success: function(response){
+                    alert(response['msg']);
+                    window.location.reload();
+                    }
+                })
+            }
+
+        
+            
         </script>
         <footer w3-include-html = "footer" class="foot"></footer>
     </body>
