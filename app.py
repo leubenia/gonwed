@@ -236,7 +236,7 @@ def idcheck():
 
 
 # 회원정보 수정 (id가 idid 인 사람)
-@app.route('/api/change', methods=['POST'])
+@app.route('/api/idchangecheck', methods=['POST'])
 def change_membership():
     userid = request.form['userid_give']
     pw = request.form['pw_give']

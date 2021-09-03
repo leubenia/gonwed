@@ -297,27 +297,27 @@
 
 
             //중복체크
-            // function check_dup() {
-            //     let userid = $("#input-username").val();
-            //     if (userid!='') {
-            //         $.ajax({
-            //             type: 'GET',
-            //             url: '/api/idcheck',
-            //             data: {userid_give: userid},
-            //             success: function (response) {
-            //                 if (response['result'] != 'success') {
-            //                     alert(response['msg']);
-            //                 } else {
-            //                     checkid = 1
-            //                     alert(response['msg']);
-            //                 }
+            function check_dup() {
+                let userid = $("#input-username").val();
+                if (userid!='') {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/idchangecheck',
+                        data: {userid_give: userid},
+                        success: function (response) {
+                            if (response['result'] != 'success') {
+                                alert(response['msg']);
+                            } else {
+                                checkid = 1
+                                alert(response['msg']);
+                            }
 
-            //             }
-            //         });
-            //     }else{
-            //         alert('아이디를 입력하세요')
-            //     }
-            // }
+                        }
+                    });
+                }else{
+                    alert('아이디를 입력하세요')
+                }
+            }
 
 
 
