@@ -161,7 +161,7 @@
                         <div>
                             <input id="input-username" type="text" placeholder="새로운 아이디를 입력하세요">
                             <i class="fas fa-user"></i>
-                            <button class="id-btn" onclick="check_dup()">중복확인</button>
+                            <button class="id-btn" onclick="check_id()">중복확인</button>
                         </div>
                         
                     </li>
@@ -297,27 +297,29 @@
 
 
             //중복체크
-            // function check_dup() {
-            //     let userid = $("#input-username").val();
-            //     if (userid!='') {
-            //         $.ajax({
-            //             type: 'GET',
-            //             url: '/api/idcheck',
-            //             data: {userid_give: userid},
-            //             success: function (response) {
-            //                 if (response['result'] != 'success') {
-            //                     alert(response['msg']);
-            //                 } else {
-            //                     checkid = 1
-            //                     alert(response['msg']);
-            //                 }
+             function check_id() {
+                 let userid = $("#input-username").val();
+                 if (userid!='') {
+                     $.ajax({
+                         type: 'GET',
+                         url: '/api/idcheck',
+                         data: {userid_give: userid},
+                         success: function (response) {
+                             if (response['result'] != 'success') {
+                                console.log("완료")
+                                alert(response['msg']);
+                             } else {
+                                checkid = 1
+                                console.log("실패")
+                                alert(response['msg']);
+                             }
 
-            //             }
-            //         });
-            //     }else{
-            //         alert('아이디를 입력하세요')
-            //     }
-            // }
+                         }
+                    });
+                }else{
+                    alert('아이디를 입력하세요')
+               }
+             }
 
 
 

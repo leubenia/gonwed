@@ -223,29 +223,20 @@ def read_membership():
 
 
 
-#아이디중복체크
-@app.route('/api/idcheck', methods=['GET'])
-def idcheck():
-    userid = request.args.get('userid_give')
-    id_check= list(db.member.find({'userid': userid}, {'_id': False}))
-    # print(id_check)
-    if id_check==[]:
-        return jsonify({'result':'success','msg': '아이디 가능합니다.'})
-    else:
-        return jsonify({'msg': '기존에 동일한 아이디가 존재합니다.'})
-
-
 # 회원정보 수정 (id가 idid 인 사람)
 @app.route('/api/change', methods=['POST'])
 def change_membership():
     userid = request.form['userid_give']
-    pw = request.form['pw_give']
+    pw = generate_password_hash(request.form['pw_give'])
     name = request.form['name_give']
     mail = request.form['mail_give']
     address = request.form['address_give']
     phone = request.form['phone_give']
 
-    title_receive = db.users.update_one({'userid':'idid'},{'$set':{'userid':userid, 'pw':pw, 'name':name, 'mail':mail, 'address':address, 'phone':phone}})
+    title_receive = db.users.update_one(
+        {'userid': userid },
+        {'$set':{'userid':userid, 'pw':pw, 'name':name, 'mail':mail, 'address':address, 'phone':phone}
+        })
     print(title_receive)
     return jsonify({'result':'success', 'msg': '회원정보가 수정되었습니다.'})
 
