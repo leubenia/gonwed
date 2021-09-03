@@ -185,6 +185,8 @@ def delete_star():
     print(sample_receive)
     return jsonify({'msg': 'delete 연결되었습니다!'})
 
+
+#로그인
 @app.route('/login_main', methods=['GET', 'POST'])
 def login_main():
     if request.method == 'GET':
@@ -211,7 +213,6 @@ def login_main():
             else:
                 flash("비밀번호가 틀렸습니다.")
                 return render_template('login.html')
-
 
 
 
