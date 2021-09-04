@@ -266,6 +266,7 @@
 
 
             // API
+            let checkid = 0
 
             $(document).ready(function () {
                 showUser();
@@ -297,12 +298,12 @@
 
 
             //중복체크
-            function check_dup() {
+            function check_id() {
                 let userid = $("#input-username").val();
                 if (userid!='') {
                     $.ajax({
                         type: 'GET',
-                        url: '/api/idchangecheck',
+                        url: '/api/changeIdCheck',
                         data: {userid_give: userid},
                         success: function (response) {
                             if (response['result'] != 'success') {
@@ -318,29 +319,6 @@
                     alert('아이디를 입력하세요')
                 }
             }
-             function check_id() {
-                 let userid = $("#input-username").val();
-                 if (userid!='') {
-                     $.ajax({
-                         type: 'GET',
-                         url: '/api/idcheck',
-                         data: {userid_give: userid},
-                         success: function (response) {
-                             if (response['result'] != 'success') {
-                                console.log("완료")
-                                alert(response['msg']);
-                             } else {
-                                checkid = 1
-                                console.log("실패")
-                                alert(response['msg']);
-                             }
-
-                         }
-                    });
-                }else{
-                    alert('아이디를 입력하세요')
-               }
-             }
 
 
 
@@ -379,16 +357,21 @@
                 let mail = $("#input-mail").val();
                 let address = $("#input-address2").val();
                 let phone = $("#input-phone").val();
+
+                
                 
                 if (userid === '') {
                     alert('아이디를 입력해주세요');
                     $('#input-username').focus();
                     return
+                } else if (userid!=""&checkid==0) {
+                    alert("아이디 중복체크 해주세요");
+                    return
                 } else if (pw === '') {
                     alert('비밀번호를 입력해주세요');
                     $('#pw').focus();
                     return
-                } else if (repw === '') {
+                } else if (repw !== pw) {
                     alert('비밀번호를 재입력해주세요');
                     $('#repw').focus();
                     return

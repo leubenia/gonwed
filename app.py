@@ -1,4 +1,5 @@
 from os import name
+from bson import objectid
 from flask_admin import model
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -138,7 +139,7 @@ def show_stars():
 def idcheck():
     userid = request.args.get('userid_give')
     id_check= list(db.users.find({'userid': userid}, {'_id': False}))
-    print(id_check)
+    # print(id_check)
     if id_check==[]:
         return jsonify({'result':'success','msg': '아이디 가능합니다.'})
     else:
@@ -216,6 +217,7 @@ def login_main():
 
 
 
+# 회원정보 수정
 # 회원정보 가져오기 (id가 idid 인 사람)
 @app.route('/user', methods=['GET'])
 def read_membership():
@@ -223,9 +225,23 @@ def read_membership():
     return jsonify({'user_membership': membership})
 
 
+#정보수정 아이디 중복체크
+@app.route('/api/changeIdCheck', methods=['GET'])
+def changeIdCheck():
+    userid = request.args.get('userid_give')
+    id_check = list(db.users.find({'userid': userid}, {'_id': True}))
+
+    ObjectId
+    # print(id_check)
+    print(userid)
+    if id_check==[] :
+        return jsonify({'result':'success','msg': '아이디 가능합니다.'})
+    else:
+        return jsonify({'msg': '기존에 동일한 아이디가 존재합니다.'})
+
 
 # 회원정보 수정 (id가 idid 인 사람)
-@app.route('/api/idchangecheck', methods=['POST'])
+@app.route('/api/change', methods=['POST'])
 def change_membership():
     userid = request.form['userid_give']
     pw = generate_password_hash(request.form['pw_give'])
